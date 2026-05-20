@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "service-b"
+version = "0.1.0"
+description = "Sub-package B: web API layer"
+authors = ["mend-detection-qa"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^3.0"
+click = "^8.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
