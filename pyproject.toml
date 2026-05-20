@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "poetry-monorepo-root"
+version = "0.1.0"
+description = "Root workspace — declares sub-packages as includes"
+authors = ["mend-detection-qa"]
+packages = [
+    {include = "service_a", from = "packages"},
+    {include = "service_b", from = "packages"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
