@@ -1,12 +1,9 @@
 [tool.poetry]
 name = "poetry-monorepo-root"
 version = "0.1.0"
-description = "Root workspace — declares sub-packages as includes"
+description = "Root workspace — coordinates sub-poetry-projects in packages/service-a and packages/service-b. Not an installable package itself."
 authors = ["mend-detection-qa"]
-packages = [
-    {include = "service_a", from = "packages"},
-    {include = "service_b", from = "packages"}
-]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
