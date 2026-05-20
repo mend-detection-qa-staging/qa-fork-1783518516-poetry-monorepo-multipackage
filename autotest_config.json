@@ -1,23 +1,100 @@
 {
-  "repoUrl": "https://github.com/mend-detection-qa/poetry-monorepo-multipackage",
-  "tests": [
-    {
-      "check_name": "total_dependencies_count",
-      "check_type": "FLEXIBLE",
-      "expected_value": 15,
-      "description": "All deps from both sub-packages: requests, httpx, flask, click + transitives"
+  "description": "Autotest config for poetry-monorepo-multipackage — Poetry monorepo with sub-packages declared via [tool.poetry.packages] include. Root has requests; service-a has requests+httpx; service-b has flask+click. Validates Mend discovers deps across sub-package manifests.",
+  "version": 1.8,
+
+  "base_config": {
+    "branch": null,
+
+    "validate_scan_output": true,
+    "scan_output": {
+      "security_scan_report_conclusion": "success",
+      "total_libs_scanned": {"gte": 11},
+      "expected_messages": []
     },
-    {
-      "check_name": "direct_dependencies_names_list",
-      "check_type": "FLEXIBLE",
-      "expected_value": ["requests", "httpx", "flask", "click"],
-      "description": "Direct deps from service-a (requests, httpx) and service-b (flask, click) must all be discovered"
+
+    "validate_dependency_tree": true,
+    "dependency_tree": {
+      "check_dependency_tree_detection_status": true,
+      "check_update_request_sca_results": true,
+
+      "expected_total_dependencies_number": {"gte": 12},
+      "_comment_total": "Lock has 15 packages (4 direct unique + 11 transitive). gte with N-3 tolerance covers per-platform resolver variation in optional transitives.",
+      "expected_direct_dependencies_number": {"gte": 1},
+      "_comment_direct_count": "gte rather than eq because Mend monorepo-discovery behavior is the unit under test: root alone (1) means sub-packages weren't discovered; 4 means full union. direct_dependencies_names_list with contains[4] is the load-bearing positive assertion — if Mend only finds root, the names list assertion fails legitimately.",
+      "expected_transitive_dependencies_number": {"gte": 8},
+
+      "direct_dependencies_names_list": {
+        "contains": ["requests", "httpx", "flask", "click"]
+      },
+      "transitive_dependencies_names_list": {
+        "contains": [
+          "anyio", "blinker", "certifi", "chardet", "httpcore", "idna",
+          "itsdangerous", "jinja2", "markupsafe", "urllib3", "werkzeug"
+        ]
+      },
+
+      "expected_package_managers": {
+        "contains": ["poetry"]
+      },
+
+      "validate_agent_versions": false,
+      "expected_agent_version": "",
+      "expected_plugin_version": "",
+
+      "validate_mend_tags": false,
+
+      "validate_checksums": false,
+      "checksums_config": {
+        "check_sha1_not_empty": false,
+        "check_sha1_format": false,
+        "check_sha1_consistency": false,
+        "check_checksums_by_formula": false,
+        "expected_dependency_checksums": []
+      },
+
+      "expected_dependency_pairs": [
+        {"artifactId": "requests", "version": "2.31.0"},
+        {"artifactId": "httpx", "version": "0.27.2"},
+        {"artifactId": "flask", "version": "3.0.3"},
+        {"artifactId": "click", "version": "8.1.8"}
+      ]
     },
-    {
-      "check_name": "transitive_dependencies_names_list",
-      "check_type": "FLEXIBLE",
-      "expected_value": ["certifi", "chardet", "idna", "urllib3", "httpcore", "anyio", "blinker", "itsdangerous", "jinja2", "markupsafe", "werkzeug"],
-      "description": "All transitives from the merged multi-package dep tree"
+
+    "validate_vulnerabilities_table": false,
+    "vulnerabilities_table": {
+      "check_vulnerabilities_table_structure": true,
+      "expected_total_vulnerabilities_number": {"gte": 0},
+      "vulnerabilities_ids_list": {"contains": []},
+      "vulnerabilities_names_list": {"contains": []}
+    },
+
+    "validate_scanner_logs": false,
+    "logs": {
+      "check_scanner_logs": true,
+      "detect_secrets": false,
+      "check_external_logs": false,
+      "expected_log_lines": []
+    },
+
+    "validate_reachability": false,
+    "reachability": {
+      "check_reachability_status": true,
+      "validate_issues": false,
+      "expected_reachable_cves": {"contains": []},
+      "expected_unreachable_cves": {"contains": []},
+      "expected_reachable_libraries": {"contains": []},
+      "expected_unreachable_libraries": {"contains": []},
+      "expected_total_reachable_count": {"gte": 0},
+      "expected_total_unreachable_count": {"gte": 0},
+      "expected_reachability_traces": []
+    },
+
+    "validate_project_contributors": false,
+    "contributors": {
+      "check_contributors_structure": true,
+      "expected_contributors": [],
+      "expected_min_commits": {"gte": 1},
+      "expected_total_contributors": {}
     }
-  ]
+  }
 }
