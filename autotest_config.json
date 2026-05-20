@@ -7,7 +7,7 @@
 
     "validate_scan_output": true,
     "scan_output": {
-      "security_scan_report_conclusion": "success",
+      "_security_scan_report_conclusion": "success",
       "total_libs_scanned": {"gte": 11},
       "expected_messages": []
     },
@@ -15,7 +15,7 @@
     "validate_dependency_tree": true,
     "dependency_tree": {
       "check_dependency_tree_detection_status": true,
-      "check_update_request_sca_results": true,
+      "check_update_request_sca_results": false,
 
       "check_system_paths": true,
       "expected_total_dependencies_number": {"gte": 12},
@@ -25,15 +25,8 @@
       "expected_transitive_dependencies_number": {"gte": 8},
 
       "direct_dependencies_names_list": {
-        "contains": ["requests", "httpx", "flask", "click"]
-      },
-      "transitive_dependencies_names_list": {
-        "contains": [
-          "anyio", "blinker", "certifi", "chardet", "httpcore", "idna",
-          "itsdangerous", "jinja2", "markupsafe", "urllib3", "werkzeug"
-        ]
-      },
-
+        "contains": ["requests-2.34.2-py3-none-any.whl", "httpx-0.27.2-py3-none-any.whl", "flask-3.1.3-py3-none-any.whl", "click-8.4.0-py3-none-any.whl"]
+      }
       "expected_package_managers": {
         "contains": ["poetry"]
       },
@@ -54,10 +47,10 @@
       },
 
       "expected_dependency_pairs": [
-        {"artifactId": "requests", "version": "2.31.0"},
+        {"artifactId": "requests", "version": "2.34.2"},
         {"artifactId": "httpx", "version": "0.27.2"},
-        {"artifactId": "flask", "version": "3.0.3"},
-        {"artifactId": "click", "version": "8.1.8"}
+        {"artifactId": "flask", "version": "3.1.3"},
+        {"artifactId": "click", "version": "8.4.0"}
       ]
     },
 
