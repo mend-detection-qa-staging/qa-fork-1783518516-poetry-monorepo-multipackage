@@ -17,6 +17,7 @@
       "check_dependency_tree_detection_status": true,
       "check_update_request_sca_results": true,
 
+      "check_system_paths": true,
       "expected_total_dependencies_number": {"gte": 12},
       "_comment_total": "Lock has 15 packages (4 direct unique + 11 transitive). gte with N-3 tolerance covers per-platform resolver variation in optional transitives.",
       "expected_direct_dependencies_number": {"gte": 1},
